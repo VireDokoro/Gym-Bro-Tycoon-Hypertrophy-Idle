@@ -225,5 +225,11 @@
   </div><!-- /#app -->
 
   <script src="app.js"></script>
+  <script>
+window.onerror = function(msg, src, line, col, err) {
+  document.body.innerHTML += '<pre style="color:red;font-size:11px;position:fixed;bottom:0;left:0;right:0;background:#000;padding:8px;z-index:99999">' + msg + '\n' + src + ':' + line + '</pre>';
+};
+</script>
+
 </body>
 </html>
