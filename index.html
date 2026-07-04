@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- SEO -->
+  <title>Gym Bro Tycoon: Hypertrophy Idle</title>
+  <meta name="description" content="El juego idle de gimnasio más adictivo. Gana Muscle Points, evoluciona tu físico y domina el hierro. Gratis y sin instalación." />
+  <meta name="keywords" content="gym, idle, clicker, tycoon, hipertrofia, músculo, fitness, bodybuilding, juego" />
+  <meta name="author" content="VireLabs" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gym Bro Tycoon: Hypertrophy Idle" />
+  <meta property="og:description" content="El juego idle de gimnasio más adictivo. Evoluciona de Flaco a Mutante IFBB." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="icons/og-image.png" />
+  <meta property="og:url" content="https://virelabs.github.io/gym-bro-tycoon/" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gym Bro Tycoon: Hypertrophy Idle" />
+  <meta name="twitter:description" content="El idle de gimnasio más adictivo. Gratis." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Gym Bro Tycoon" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icons/icon-32.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash" aria-hidden="true">
+    <div class="splash-logo">🏋️</div>
+    <div class="splash-title">GYM BRO<br><span>TYCOON</span></div>
+    <div class="splash-sub">HYPERTROPHY IDLE</div>
+    <div class="splash-bar-wrap"><div class="splash-bar" id="splashBar"></div></div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" class="hidden" role="main">
+
+    <!-- HEADER -->
+    <header id="header" role="banner">
+      <div class="header-left">
+        <button class="icon-btn" id="btnStats" aria-label="Estadísticas" title="Estadísticas">📊</button>
+        <button class="icon-btn" id="btnMissions" aria-label="Misiones" title="Misiones">🎯</button>
+      </div>
+      <div class="header-center">
+        <div class="currency-display">
+          <span class="currency-icon">💪</span>
+          <span id="pmDisplay" class="currency-val">0</span>
+        </div>
+        <div class="per-second">
+          <span id="ppsDisplay">0</span> PM/s
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="btnAchievements" aria-label="Logros" title="Logros">🏆</button>
+        <button class="icon-btn" id="btnSettings" aria-label="Ajustes" title="Ajustes">⚙️</button>
+      </div>
+    </header>
+
+    <!-- PRESTIGE BAR -->
+    <div id="prestigeBar" role="progressbar" aria-label="Progreso de Hipertrofia">
+      <div class="prestige-label">
+        <span>🔥 Hipertrofia Nv.<span id="hypertrophyLevel">1</span></span>
+        <span id="prestigeReady" class="prestige-ready hidden">¡LISTO PARA RENACER! 🧬</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="hypertrophyFill"></div>
+      </div>
+    </div>
+
+    <!-- CHARACTER STAGE -->
+    <section id="characterStage" aria-label="Tu personaje">
+      <div class="stage-aura" id="stageAura"></div>
+      <div class="character-wrap">
+        <div class="char-emoji" id="charEmoji">🧍</div>
+        <div class="char-name" id="charName">FLACO</div>
+        <div class="char-desc" id="charDesc">Apenas pisa el gym</div>
+      </div>
+      <div class="stage-stats">
+        <div class="stat-chip">
+          <span class="chip-label">NIVEL</span>
+          <span class="chip-val" id="chipLevel">1</span>
+        </div>
+        <div class="stat-chip">
+          <span class="chip-label">GENES</span>
+          <span class="chip-val" id="chipGenes">0</span>
+        </div>
+        <div class="stat-chip">
+          <span class="chip-label">MEJOR CLICK</span>
+          <span class="chip-val" id="chipBestClick">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAP ZONE -->
+    <section id="tapZone" aria-label="Zona de entrenamiento">
+      <button
+        id="mainBtn"
+        class="main-tap-btn"
+        aria-label="Press Banca – ganar Muscle Points"
+        tabindex="0"
+      >
+        <span class="btn-icon" aria-hidden="true">🏋️</span>
+        <span class="btn-label">PRESS BANCA</span>
+        <span class="btn-sub" id="tapPMLabel">+1 PM / click</span>
+      </button>
+    </section>
+
+    <!-- BOTTOM NAV -->
+    <nav id="bottomNav" role="navigation" aria-label="Navegación principal">
+      <button class="nav-btn active" data-tab="shop" aria-label="Tienda" aria-selected="true">
+        <span>🛒</span><span class="nav-label">Tienda</span>
+      </button>
+      <button class="nav-btn" data-tab="prestige" aria-label="Prestigio" aria-selected="false">
+        <span>🧬</span><span class="nav-label">Genes</span>
+      </button>
+      <button class="nav-btn" data-tab="missions" aria-label="Misiones" aria-selected="false">
+        <span>🎯</span><span class="nav-label">Misiones</span>
+      </button>
+      <button class="nav-btn" data-tab="stats" aria-label="Stats" aria-selected="false">
+        <span>📊</span><span class="nav-label">Stats</span>
+      </button>
+    </nav>
+
+    <!-- PANELS (one active at a time) -->
+    <div id="panels">
+
+      <!-- SHOP PANEL -->
+      <section id="panelShop" class="panel active" aria-label="Tienda de mejoras">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-shop-tab="click">⚡ Click</button>
+          <button class="panel-tab" data-shop-tab="idle">⏱ Idle</button>
+        </div>
+        <div id="shopClickList" class="shop-list" role="list" aria-label="Mejoras de click"></div>
+        <div id="shopIdleList" class="shop-list hidden" role="list" aria-label="Mejoras idle"></div>
+      </section>
+
+      <!-- PRESTIGE PANEL -->
+      <section id="panelPrestige" class="panel hidden" aria-label="Sistema de Genes">
+        <div class="prestige-header">
+          <div class="prestige-title">🧬 RENACER</div>
+          <div class="prestige-subtitle">Sacrifica todo por el poder genético</div>
+        </div>
+        <div class="prestige-info-card">
+          <div class="pi-row">
+            <span>Genes actuales</span><span id="presGenesCurrent">0</span>
+          </div>
+          <div class="pi-row">
+            <span>Genes a obtener</span><span id="presGenesToGet" class="highlight">0</span>
+          </div>
+          <div class="pi-row">
+            <span>Bonus por gen</span><span class="highlight">+5% todas las ganancias</span>
+          </div>
+          <div class="pi-row">
+            <span>Bonus total actual</span><span id="presBonusTotal" class="highlight">+0%</span>
+          </div>
+        </div>
+        <div class="prestige-cost-note" id="prestigeCostNote">Necesitas 1T PM para renacer</div>
+        <button id="btnPrestige" class="prestige-btn" disabled aria-label="Renacer y obtener Genes">
+          🧬 RENACER AHORA
+        </button>
+        <div class="prestige-warn">⚠️ Perderás todos tus PM y mejoras. Los Genes son permanentes.</div>
+      </section>
+
+      <!-- MISSIONS PANEL -->
+      <section id="panelMissions" class="panel hidden" aria-label="Misiones y logros">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-mission-tab="missions">🎯 Misiones</button>
+          <button class="panel-tab" data-mission-tab="achievements">🏆 Logros</button>
+        </div>
+        <div id="missionsList" class="missions-list" role="list"></div>
+        <div id="achievementsList" class="missions-list hidden" role="list"></div>
+      </section>
+
+      <!-- STATS PANEL -->
+      <section id="panelStats" class="panel hidden" aria-label="Estadísticas del jugador">
+        <div class="stats-grid" id="statsGrid" role="list"></div>
+        <div class="save-actions">
+          <button class="save-btn" id="btnExport">📤 Exportar</button>
+          <button class="save-btn" id="btnImport">📥 Importar</button>
+          <button class="save-btn danger" id="btnReset">🗑 Reiniciar</button>
+        </div>
+        <textarea id="importArea" class="import-area hidden" placeholder="Pega tu código de partida aquí..." aria-label="Área de importación de partida"></textarea>
+        <button class="save-btn confirm hidden" id="btnImportConfirm">✅ Confirmar Importación</button>
+      </section>
+
+    </div>
+
+    <!-- FLOATING NUMBERS CONTAINER -->
+    <div id="floatContainer" aria-hidden="true"></div>
+
+    <!-- MODAL OVERLAY (achievements, notifications) -->
+    <div id="modalOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span id="modalIcon" class="modal-icon"></span>
+          <span id="modalTitle" class="modal-title"></span>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">OK</button>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toastContainer" aria-live="polite" aria-atomic="false"></div>
+
+  </div><!-- /#app -->
+
+  <script src="app.js"></script>
+</body>
+</html>
